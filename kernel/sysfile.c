@@ -484,3 +484,25 @@ sys_pipe(void)
   }
   return 0;
 }
+
+uint64
+sys_trace(void)
+{
+  int n;
+
+  if (argint(0, &n) < 0)
+    return -1;
+  
+  struct proc *p = myproc();
+
+  //update tracemask
+  p->mask = n;
+  //not inx is retval!!!
+  //num = p->trapframe->a7;
+  //printf("mask : %d\n",n);
+  //Valid condition
+  //...
+  //This syscall action have changed
+  return 0;
+}
+

@@ -82,6 +82,8 @@ argstr(int n, char *buf, int max)
     return -1;
   return fetchstr(addr, buf, max);
 }
+char *syscname[] = {" ", "fork", "exit", "wait", "pipe", "read", "kill", "exec", "fstat", "chdir", "dup", "getpid", "sbrk", "sleep", "uptime", "open", "write", "mknod", "unlink", "link", "mkdir", "close", "trace", "sysinfotest"};
+
 
 extern uint64 sys_chdir(void);
 extern uint64 sys_close(void);
@@ -104,6 +106,8 @@ extern uint64 sys_unlink(void);
 extern uint64 sys_wait(void);
 extern uint64 sys_write(void);
 extern uint64 sys_uptime(void);
+extern uint64 sys_trace(void);
+
 
 static uint64 (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -127,6 +131,7 @@ static uint64 (*syscalls[])(void) = {
 [SYS_link]    sys_link,
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
+[SYS_trace]   sys_trace,
 };
 
 void
@@ -138,6 +143,17 @@ syscall(void)
   num = p->trapframe->a7;
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
     p->trapframe->a0 = syscalls[num]();
+    //Trace condition
+    if(p->mask != 0){
+      uint32 trcnum = 1 << num;
+      //printf("%d ",trcnum);
+      //printf("trcnum :%d sysmask: %d sysname : %s \n",trcnum, p->mask,p->name);
+      if(trcnum & p->mask){
+          //not process name
+          //printf("%d: syscall %s -> %d\n",p->pid, p->name, p->trapframe->a0);
+          printf("%d: syscall %s -> %d\n",p->pid, syscname[num], p->trapframe->a0);
+      }
+    }
   } else {
     printf("%d %s: unknown sys call %d\n",
             p->pid, p->name, num);
