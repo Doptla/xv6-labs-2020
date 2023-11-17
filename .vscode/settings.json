@@ -1,0 +1,10 @@
+{
+  "C_Cpp.intelliSenseEngine": "default",
+  "files.associations": {
+    "user.h": "c",
+    "types.h": "c",
+    "defs.h": "c"
+  },
+  "search.useIgnoreFiles": true,
+  "search.useGlobalIgnoreFiles": false
+}
