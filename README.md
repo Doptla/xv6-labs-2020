@@ -17,5 +17,5 @@ You should do the labs on your own at first, but if you encounter some bugs or w
 
 ### lab2 : syscall
 
-- sleep (moderate/hard) : Combine this with the user program trace to figure out what exactly to implement. If you haven't worked with make or vim before, this will take a long time.
+- trace (moderate/hard) : Combine this with the user program trace to figure out what exactly to implement. If you haven't worked with make or vim before, this will take a long time.
 - sysinfo(moderate) : Read Sections 3.2~3.6,If you are unfamiliar with the organization of memory, the process count combined with the source code and the manual will suffice
